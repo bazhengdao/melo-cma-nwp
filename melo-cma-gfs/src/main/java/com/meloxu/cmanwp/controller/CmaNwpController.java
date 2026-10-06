@@ -144,12 +144,12 @@ public class CmaNwpController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM).body(body);
     }
 
-    @GetMapping("/message/{shortName}/{levelType}/{level}/{time}")
-    public Map<String, Object> messageByPath(@PathVariable String shortName,
+    @GetMapping("/message/{dataCode}/{shortName}/{levelType}/{level}/{time}")
+    public Map<String, Object> messageByPath(@PathVariable String dataCode,
+                                              @PathVariable String shortName,
                                               @PathVariable int levelType,
                                               @PathVariable double level,
-                                              @PathVariable String time,
-                                              @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode) throws IOException {
+                                              @PathVariable String time) throws IOException {
         return service.messageByTime(dataCode, shortName, levelType, level, time);
     }
 }

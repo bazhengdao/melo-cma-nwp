@@ -163,7 +163,7 @@ class CmaNwpControllerTest {
         when(service.messageByTime("cma-gfs", "2t", 103, 2.0, "2026092900.024"))
                 .thenReturn(Map.of("shortName", "2t"));
 
-        mockMvc.perform(get("/api/cma-nwp/message/2t/103/2/2026092900.024"))
+        mockMvc.perform(get("/api/cma-nwp/message/cma-gfs/2t/103/2/2026092900.024"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.shortName").value("2t"));
     }
