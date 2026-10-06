@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: cma-gfs
+  config:
+    import:
+      - optional:classpath:derived-data.yml
+      - optional:classpath:contour-data.yml
+      - optional:classpath:units-data.yml
+
+server:
+  port: ${SERVER_PORT:8080}
+
+cma:
+  normal-data-cache-size: ${CMA_NORMAL_DATA_CACHE_SIZE:8}
+  contour-cache-size: ${CMA_CONTOUR_CACHE_SIZE:32}
+  sources:
+    cma-gfs:
+      root: ${CMA_GFS_ROOT:../CMA-GFS-DATA}
+      file-prefix: gmf.gra.
+    cma-meso:
+      root: ${CMA_MESO_ROOT:../CMA-MESO-DATA}
+      file-prefix: gmf.gra.

@@ -1,0 +1,36 @@
+cma:
+  conversions:
+    # GRIB geopotential height is gpm; expose geopotential decagpm.
+    - dataPath: hgt/*/*
+      from: gpm
+      to: dagpm
+      scale: 0.1
+      offset: 0
+    # GRIB temperature fields are Kelvin; expose Celsius.
+    - dataPath: tmp/*/*
+      from: K
+      to: C
+      scale: 1
+      offset: -273.15
+    - dataPath: tmax/*/*
+      from: K
+      to: C
+      scale: 1
+      offset: -273.15
+    - dataPath: tmin/*/*
+      from: K
+      to: C
+      scale: 1
+      offset: -273.15
+    # GRIB visibility is metres; expose kilometres.
+    - dataPath: vis/*/*
+      from: m
+      to: km
+      scale: 0.001
+      offset: 0
+    # Mean sea level pressure is stored in pascals; expose hectopascals.
+    - dataPath: prmsl/*/*
+      from: Pa
+      to: hPa
+      scale: 0.01
+      offset: 0

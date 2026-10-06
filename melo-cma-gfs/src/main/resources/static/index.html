@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMA-NWP API Test</title>
+  <style>
+    :root { color-scheme: light; font: 14px/1.45 system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #18212b; background: #f3f5f7; }
+    header { padding: 20px 24px 16px; background: #142333; color: white; }
+    header h1 { margin: 0 0 4px; font-size: 22px; }
+    header p { margin: 0; color: #b9c6d3; }
+    main { max-width: 1280px; margin: 0 auto; padding: 20px 24px 40px; }
+    form { display: grid; grid-template-columns: repeat(6, minmax(120px, 1fr)); gap: 10px; align-items: end; margin-bottom: 18px; }
+    label { display: grid; gap: 4px; color: #52606d; font-size: 12px; font-weight: 600; }
+    input { width: 100%; min-height: 34px; border: 1px solid #c8d0d8; border-radius: 4px; padding: 6px 8px; background: white; color: inherit; }
+    button { min-height: 34px; border: 0; border-radius: 4px; padding: 0 14px; background: #087f8c; color: white; font-weight: 700; cursor: pointer; }
+    button:hover { background: #066873; }
+    #summary { margin: 0 0 12px; color: #52606d; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; }
+    article { min-width: 0; border: 1px solid #d5dce3; border-radius: 5px; background: white; }
+    article h2 { margin: 0; padding: 10px 12px; border-bottom: 1px solid #e7ebef; font-size: 14px; }
+    .meta { display: flex; gap: 10px; padding: 8px 12px 0; color: #687684; font-size: 12px; }
+    .ok { color: #137333; } .fail { color: #b3261e; } .busy { color: #8a5a00; }
+    pre { max-height: 260px; overflow: auto; margin: 8px 12px 12px; padding: 9px; border-radius: 3px; background: #f5f7f9; white-space: pre-wrap; word-break: break-word; }
+    @media (max-width: 800px) { form { grid-template-columns: repeat(2, minmax(130px, 1fr)); } main { padding: 16px; } }
+  </style>
+</head>
+<body>
+<header>
+  <h1>CMA-NWP API Test</h1>
+  <p>All configured requests run automatically when this page opens.</p>
+</header>
+<main>
+  <form id="params">
+    <label>dataCode<input name="dataCode" value="cma-gfs"></label>
+    <label>inittime<input name="inittime" value="2026092900"></label>
+    <label>forecast<input name="forecast" value="024"></label>
+    <label>shortName<input name="shortName" value="hgt"></label>
+    <label>levelType<input name="levelType" value="100"></label>
+    <label>level<input name="level" value="500"></label>
+    <label>dataPath<input name="dataPath" value="CMA-GFS/hgt/100/500/2026092900.024"></label>
+    <label>z<input name="z" value="3"></label>
+    <label>x<input name="x" value="2"></label>
+    <label>y<input name="y" value="1"></label>
+    <label>clevs<input name="clevs" value=""></label>
+    <button type="submit">Run All</button>
+  </form>
+  <p id="summary">Waiting...</p>
+  <section id="results" class="grid"></section>
+</main>
+<script>
+  const form = document.querySelector('#params');
+  const results = document.querySelector('#results');
+  const summary = document.querySelector('#summary');
+  const value = name => form.elements[name].value.trim();
+  const query = entries => new URLSearchParams(entries).toString();
+
+  function requestList() {
+    const q = query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast'),
+      shortName: value('shortName'), levelType: value('levelType'), level: value('level')});
+    const path = value('dataPath');
+    const tile = query({dataPath: path, z: value('z'), x: value('x'), y: value('y')});
+    const pathTile = `/api/cma-nwp/tile/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}/${value('z')}/${value('x')}/${value('y')}.bin`;
+    const derivedPath = (name, levelType, level, forecast) =>
+      `${value('dataCode')}/${name}/${levelType}/${level}/${value('inittime')}.${forecast}`;
+    return [
+      ['health', '/health', 'json'],
+      ['inittimes', `/api/cma-nwp/inittimes?${query({dataCode: value('dataCode')})}`, 'json'],
+      ['validtimes', `/api/cma-nwp/validtimes?${query({dataCode: value('dataCode'), inittime: value('inittime'), dataPath: value('dataPath')})}`, 'json'],
+      ['message', `/api/cma-nwp/messages?${q}`, 'json'],
+      ['message catalog', `/api/cma-nwp/messages/catalog?${query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast')})}`, 'json'],
+      ['message by path', `/api/cma-nwp/message/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}?${query({dataCode: value('dataCode')})}`, 'json'],
+      ['meta', `/api/cma-nwp/meta?${query({dataPath: path})}`, 'json'],
+      ['tile', `/api/cma-nwp/tile?${tile}`, 'binary'],
+      ['tile path', pathTile, 'binary'],
+      ['contour', `/api/cma-nwp/contour?${query({dataPath: path, clevs: value('clevs')})}`, 'json'],
+      ['derived meta rain24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('rain24', 1, 0, '024')})}`, 'json'],
+      ['derived meta tmax24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('tmax24', 103, 2, '024')})}`, 'json'],
+      ['derived meta tmax24_ch24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('tmax24_ch24', 103, 2, '048')})}`, 'json'],
+      ['derived meta prmsl_ch24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('prmsl_ch24', 101, 0, '024')})}`, 'json']
+    ];
+  }
+
+  async function run(name, url, kind) {
+    const card = document.createElement('article');
+    card.innerHTML = `<h2>${name}</h2><div class="meta"><span class="busy">running</span><span class="url"></span></div><pre>...</pre>`;
+    card.querySelector('.url').textContent = url;
+    results.append(card);
+    const started = performance.now();
+    try {
+      const response = await fetch(url);
+      const elapsed = Math.round(performance.now() - started);
+      const status = card.querySelector('.meta span');
+      status.textContent = `${response.status} ${response.statusText} / ${elapsed} ms`;
+      status.className = response.ok ? 'ok' : 'fail';
+      if (kind === 'binary') {
+        const body = await response.arrayBuffer();
+        card.querySelector('pre').textContent = `binary response: ${body.byteLength} bytes`;
+      } else {
+        const text = await response.text();
+        try { card.querySelector('pre').textContent = JSON.stringify(JSON.parse(text), null, 2); }
+        catch { card.querySelector('pre').textContent = text; }
+      }
+    } catch (error) {
+      const status = card.querySelector('.meta span');
+      status.textContent = 'request failed';
+      status.className = 'fail';
+      card.querySelector('pre').textContent = error.stack || String(error);
+    }
+  }
+
+  async function runAll(event) {
+    if (event) event.preventDefault();
+    results.replaceChildren();
+    const requests = requestList();
+    summary.textContent = `Running ${requests.length} requests...`;
+    await Promise.all(requests.map(([name, url, kind]) => run(name, url, kind)));
+    summary.textContent = `Completed ${requests.length} requests at ${new Date().toLocaleTimeString()}.`;
+  }
+
+  form.addEventListener('submit', runAll);
+  runAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+cma:
+  derived:
+    - dataPath: rain24/1/0
+      ref: apcp/1/0
+      step: 24
+      minVT: 24
+    - dataPath: rain12/1/0
+      ref: apcp/1/0
+      step: 12
+      minVT: 12
+    - dataPath: rain06/1/0
+      ref: apcp/1/0
+      step: 6
+      minVT: 6
+    - dataPath: rain03/1/0
+      ref: apcp/1/0
+      step: 3
+      minVT: 3
+    - dataPath: tmp24/103/2
+      ref: tmp/103/2
+      step: 3
+      count: 9
+      aggr: avg
+      minVT: 24
+    - dataPath: tmax24/103/2
+      ref: tmax/103/2
+      step: 3
+      count: 8
+      aggr: max
+      minVT: 24
+    - dataPath: tmin24/103/2
+      ref: tmin/103/2
+      step: 3
+      count: 8
+      aggr: min
+      minVT: 24
+    - dataPath: tmp_ch24/103/2
+      ref: tmp/103/2
+      step: 24
+      minVT: 24
+    - dataPath: tmax24_ch24/103/2
+      ref: tmax24/103/2
+      step: 24
+      minVT: 48
+    - dataPath: tmin24_ch24/103/2
+      ref: tmin24/103/2
+      step: 24      
+      minVT: 48
+    - dataPath: prmsl_ch24/101/0
+      ref: prmsl/101/0
+      step: 24
+      minVT: 24
