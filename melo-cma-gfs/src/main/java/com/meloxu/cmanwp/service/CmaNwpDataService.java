@@ -40,11 +40,6 @@ public class CmaNwpDataService {
         this.cache = cache;
     }
 
-    public NormalData normalData(String inittime, String forecast, String shortName,
-                                 int levelType, double level) throws IOException {
-        return normalData("cma-gfs", inittime, forecast, shortName, levelType, level);
-    }
-
     public NormalData normalData(String sourceId, String inittime, String forecast,
                                  String shortName, int levelType, double level) throws IOException {
         CmaNwpNormalDataCache.Key key = key(sourceId, inittime, forecast, shortName, levelType, level);
@@ -205,11 +200,12 @@ public class CmaNwpDataService {
                     "dataPath must be shortName/levelType/level/inittime.forecast");
         }
         String[] parts = dataPath.split("/", -1);
-        String sourceId = "cma-gfs";
-        if (parts.length > 0 && sources.contains(parts[0])) {
-            sourceId = CmaDataSourceRegistry.normalize(parts[0]);
-            parts = Arrays.copyOfRange(parts, 1, parts.length);
+        if (parts.length == 0 || !sources.contains(parts[0])) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "dataPath must start with a configured dataCode");
         }
+        String sourceId = CmaDataSourceRegistry.normalize(parts[0]);
+        parts = Arrays.copyOfRange(parts, 1, parts.length);
         if ((parts.length != 3 && parts.length != 4) || parts[0].isBlank()
                 || parts[1].isBlank() || parts[2].isBlank() || (timeRequired && parts.length != 4)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

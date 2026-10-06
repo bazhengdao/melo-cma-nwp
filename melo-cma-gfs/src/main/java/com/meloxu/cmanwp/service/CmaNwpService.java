@@ -52,10 +52,6 @@ public class CmaNwpService {
         this.properties = properties;
     }
 
-    public List<Map<String, Object>> initTimes() throws IOException {
-        return initTimes("cma-gfs");
-    }
-
     public List<Map<String, Object>> initTimes(String sourceId) throws IOException {
         Path root = source(sourceId).root();
         if (!Files.isDirectory(root)) return List.of();
@@ -133,20 +129,10 @@ public class CmaNwpService {
         return result;
     }
 
-    public Map<String, Object> message(String inittime, String forecast, String shortName,
-                                       int levelType, double level) throws IOException {
-        return message("cma-gfs", inittime, forecast, shortName, levelType, level);
-    }
-
     public Map<String, Object> message(String sourceId, String inittime, String forecast,
                                        String shortName, int levelType, double level) throws IOException {
         CmaNwpMessage message = findMessage(sourceId, inittime, forecast, shortName, levelType, level);
         return serialize(message);
-    }
-
-    public CmaNwpMessage findMessage(String inittime, String forecast, String shortName,
-                                      int levelType, double level) throws IOException {
-        return findMessage("cma-gfs", inittime, forecast, shortName, levelType, level);
     }
 
     public CmaNwpMessage findMessage(String sourceId, String inittime, String forecast,
@@ -164,10 +150,6 @@ public class CmaNwpService {
             }
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "message not found");
         }
-    }
-
-    public CmaNwpMessage findLatestMessage(String shortName, int levelType, double level) throws IOException {
-        return findLatestMessage("cma-gfs", shortName, levelType, level);
     }
 
     public CmaNwpMessage findLatestMessage(String sourceId, String shortName,
@@ -206,11 +188,6 @@ public class CmaNwpService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "message not found");
     }
 
-    public Map<String, Object> messageByTime(String shortName, int levelType, double level,
-                                             String time) throws IOException {
-        return messageByTime("cma-gfs", shortName, levelType, level, time);
-    }
-
     public Map<String, Object> messageByTime(String sourceId, String shortName, int levelType,
                                              double level, String time) throws IOException {
         Matcher matcher = MESSAGE_TIME.matcher(time);
@@ -218,10 +195,6 @@ public class CmaNwpService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "time must be yyyyMMddHH.FFF");
         }
         return message(sourceId, matcher.group(1), matcher.group(2), shortName, levelType, level);
-    }
-
-    public Map<String, Object> messageCatalog(String inittime, String forecast) throws IOException {
-        return messageCatalog("cma-gfs", inittime, forecast);
     }
 
     public Map<String, Object> messageCatalog(String sourceId, String inittime,

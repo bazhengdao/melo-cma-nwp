@@ -45,13 +45,13 @@ class CmaNwpControllerTest {
     }
 
     @Test
-    void validTimesEndpointPassesDataCodeAndInitTime() throws Exception {
-        when(service.validTimes("cma-gfs", "2026092900"))
+    void validTimesEndpointUsesDataCodeFromDataPath() throws Exception {
+        when(service.validTimes("cma-gfs", "2026092900", "hgt/100/500"))
                 .thenReturn(List.of(Map.of("validTime", "024", "fcstTime", "2026093000")));
 
         mockMvc.perform(get("/api/cma-nwp/validtimes")
-                        .param("dataCode", "cma-gfs")
-                        .param("inittime", "2026092900"))
+                        .param("inittime", "2026092900")
+                        .param("dataPath", "cma-gfs/hgt/100/500"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].validTime").value("024"));
     }

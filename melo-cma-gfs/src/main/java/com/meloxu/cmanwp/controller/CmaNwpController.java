@@ -41,10 +41,8 @@ public class CmaNwpController {
     @GetMapping("/validtimes")
     public List<Map<String, Object>> validTimes(
             @RequestParam String inittime,
-            @RequestParam(required = false) String dataPath) throws IOException {
-        return dataPath == null || dataPath.isBlank()
-                ? service.validTimes("cma-gfs", inittime)
-                : service.validTimes(sourceFromPath(dataPath), inittime, validTimePath(relativePath(dataPath)));
+            @RequestParam String dataPath) throws IOException {
+        return service.validTimes(sourceFromPath(dataPath), inittime, validTimePath(relativePath(dataPath)));
     }
 
     @GetMapping("/messages/catalog")

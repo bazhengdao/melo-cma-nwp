@@ -17,8 +17,10 @@ class CmaNwpProcessRainTest {
 
     @BeforeEach
     void setUp() {
+        CmaDataSourceRegistry sources = mock(CmaDataSourceRegistry.class);
+        when(sources.contains("cma-gfs")).thenReturn(true);
         service = spy(new CmaNwpDataService(mock(CmaNwpService.class), new CmaNwpTileService(),
-                mock(CmaDataSourceRegistry.class), mock(CmaNwpDerivedService.class),
+                sources, mock(CmaNwpDerivedService.class),
                 mock(CmaNwpUnitService.class), new CmaNwpNormalDataCache(new CmaDataProperties())));
     }
 
@@ -29,16 +31,16 @@ class CmaNwpProcessRainTest {
         stub("096", end);
         stub("039", start);
         stub("048", data(22, 3));
-        NormalData result = service.minusData(path("096"), path("039"));
+        NormalData result = service.minusData("cma-gfs/" + path("096"), "cma-gfs/" + path("039"));
         assertEquals(25, result.data[0][0]);
         assertTrue(Float.isNaN(result.data[0][1]));
         assertEquals("mm", result.unit);
         assertEquals(42, end.data[0][0]);
         assertEquals(17, start.data[0][0]);
-        assertSame(result, service.minusData(path("096"), path("039")));
-        assertEquals(20, service.minusData(path("096"), path("048")).data[0][0]);
-        assertEquals("mm", service.minusMeta(path("096"), path("039")).unit);
-        byte[] tile = service.minusTile(path("096"), path("039"), 0, 0, 0);
+        assertSame(result, service.minusData("cma-gfs/" + path("096"), "cma-gfs/" + path("039")));
+        assertEquals(20, service.minusData("cma-gfs/" + path("096"), "cma-gfs/" + path("048")).data[0][0]);
+        assertEquals("mm", service.minusMeta("cma-gfs/" + path("096"), "cma-gfs/" + path("039")).unit);
+        byte[] tile = service.minusTile("cma-gfs/" + path("096"), "cma-gfs/" + path("039"), 0, 0, 0);
         // Binary tiles use big-endian int16 values with a scale of ten.
         assertEquals(250, java.nio.ByteBuffer.wrap(tile).getShort());
     }
@@ -48,7 +50,7 @@ class CmaNwpProcessRainTest {
         for (String start : new String[]{path("096"), path("099"), "apcp/1/0",
                 "apcp/1/0/2026093000.039", "tmp/1/0/2026092900.039"}) {
             var error = assertThrows(ResponseStatusException.class,
-                    () -> service.minusData(path("096"), start));
+                    () -> service.minusData("cma-gfs/" + path("096"), "cma-gfs/" + start));
             assertEquals(400, error.getStatusCode().value());
         }
     }
@@ -59,12 +61,12 @@ class CmaNwpProcessRainTest {
         doThrow(new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND))
                 .when(service).normalData("cma-gfs", "2026092900", "039", "apcp", 1, 0);
         assertEquals(404, assertThrows(ResponseStatusException.class,
-                () -> service.minusData(path("096"), path("039"))).getStatusCode().value());
+                () -> service.minusData("cma-gfs/" + path("096"), "cma-gfs/" + path("039"))).getStatusCode().value());
         NormalData start = data(17, 20);
         start.res = 2;
         stub("039", start);
         assertEquals(502, assertThrows(ResponseStatusException.class,
-                () -> service.minusData(path("096"), path("039"))).getStatusCode().value());
+                () -> service.minusData("cma-gfs/" + path("096"), "cma-gfs/" + path("039"))).getStatusCode().value());
     }
 
     private void stub(String forecast, NormalData data) throws Exception {
