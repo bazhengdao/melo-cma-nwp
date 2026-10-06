@@ -97,7 +97,7 @@ class CmaNwpControllerTest {
 
     @Test
     void metaEndpointReturnsMetadata() throws Exception {
-        when(dataService.meta("tmp/103/2/2026092900.024")).thenReturn(new NormalInfo());
+        when(dataService.meta("cma-gfs/tmp/103/2/2026092900.024")).thenReturn(new NormalInfo());
 
         mockMvc.perform(get("/api/cma-nwp/meta")
                         .param("dataPath", "tmp/103/2/2026092900.024"))
@@ -106,7 +106,7 @@ class CmaNwpControllerTest {
 
     @Test
     void tileQueryEndpointReturnsBinaryBody() throws Exception {
-        when(dataService.tile("tmp/103/2/2026092900.024", 3, 2, 1))
+        when(dataService.tile("cma-gfs/tmp/103/2/2026092900.024", 3, 2, 1))
                 .thenReturn(new byte[]{1, 2, 3});
 
         mockMvc.perform(get("/api/cma-nwp/tile")
@@ -132,7 +132,7 @@ class CmaNwpControllerTest {
 
     @Test
     void contourEndpointReturnsGeoJson() throws Exception {
-        when(contourService.contour(eq("tmp/103/2/2026092900.024"), eq("0,10")))
+        when(contourService.contour(eq("cma-gfs/tmp/103/2/2026092900.024"), eq("0,10")))
                 .thenReturn(Map.of(
                         "type", "FeatureCollection",
                         "features", List.of()));
@@ -160,12 +160,14 @@ class CmaNwpControllerTest {
     void processRainEndpointsPassBothSelectedTimes() throws Exception {
         String end = "apcp/1/0/2026092900.096";
         String start = "apcp/1/0/2026092900.039";
-        when(dataService.minusMeta(end, start)).thenReturn(new NormalInfo());
-        when(dataService.minusTile(end, start, 0, 1, 0)).thenReturn(new byte[]{0, 25});
+        String sourceEnd = "cma-gfs/" + end;
+        String sourceStart = "cma-gfs/" + start;
+        when(dataService.minusMeta(sourceEnd, sourceStart)).thenReturn(new NormalInfo());
+        when(dataService.minusTile(sourceEnd, sourceStart, 0, 1, 0)).thenReturn(new byte[]{0, 25});
         mockMvc.perform(get("/api/cma-nwp/meteo/minusMeta")
                         .param("dataPath", end).param("dataPath2", start))
                 .andExpect(status().isOk());
-        verify(dataService).minusMeta(end, start);
+        verify(dataService).minusMeta(sourceEnd, sourceStart);
         mockMvc.perform(get("/api/cma-nwp/meteo/minusTile")
                         .param("dataPath", end).param("dataPath2", start)
                         .param("z", "0").param("x", "1").param("y", "0"))
