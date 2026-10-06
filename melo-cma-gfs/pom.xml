@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>com.meloxu</groupId>
-    <artifactId>cma-gfs</artifactId>
+        <artifactId>melo-cma-nwp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>CmaNwpApplication</name>
-    <description>CMA-GFS GRIB2 tile service</description>
+        <description>CMA NWP GRIB2 tile service</description>
 
     <properties>
         <java.version>21</java.version>

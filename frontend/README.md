@@ -1,6 +1,6 @@
-# CMA-GFS 前端工作台
+# Melo CMA NWP 前端工作台
 
-一个面向 CMA-GFS 数值预报数据的 Vue 3.5 + Vite 前端可视化工程，组件按顶部控制栏、产品菜单、地图工作区、时效轴和点位信息拆分，后续可以把地图图层和点位信息替换为真实 API 数据。
+一个面向 CMA 数值预报数据的 Vue 3.5 + Vite 前端可视化工程，支持通过 dataCode 扩展不同数值预报数据源。
 
 菜单配置位于 `src/config/menuConfig.js`，来源于 `grapes/src/assets/js/PlotConfig.js` 的产品定义。每个菜单项都包含 `ele` 和 `layers`，其中 `layers` 是该产品需要显示的图层键；组合图层会按数组顺序声明，例如 `500hPa高度925hPa风场` 为 `wind_925_c + height_500`。
 
@@ -17,7 +17,7 @@ npm run dev
 npm run build
 ```
 
-主要入口位于 `src/main.js` 和 `src/style.css`。地图使用 Leaflet 和 Grapes 的二进制图层引擎，开发环境将 `/api` 代理到本机 8080 端口的 `melo-cma-gfs` 服务。
+主要入口位于 `src/main.js` 和 `src/style.css`。地图使用 Leaflet 和 Grapes 的二进制图层引擎，开发环境将 `/api` 代理到本机 8080 端口的 `melo-cma-nwp` 服务。
 
 ## 过程累计降水
 

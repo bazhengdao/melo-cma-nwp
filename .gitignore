@@ -1,26 +1,9 @@
-# Frontend dependencies and build output
-frontend/node_modules/
-frontend/dist/
-
-# Java build output and IDE metadata
-melo-cma-gfs/target/
-melo-cma-gfs/.idea/
-melo-cma-gfs/.vscode/
-**/*.class
-
-# Local editor and runtime files
-.idea/
-.vscode/
-*.log
-*.tmp
-
-# Local weather data and analysis artifacts
+**/target/
+**/node_modules/
+**/dist/
+**/*.log
+**/.idea/
+**/.vscode/
+*.iml
 CMA-GFS-DATA/
-期望功能.png
-*_变量清单分析.md
-*_分辨率范围分析.md
-*_分辨率范围清单.csv
-*_时效核验.csv
-
-
-melo-cma-gfs/**/target/
+**/maven-central-settings.xml
