@@ -41,6 +41,7 @@
     <label>levelType<input name="levelType" value="100"></label>
     <label>level<input name="level" value="500"></label>
     <label>dataPath<input name="dataPath" value="cma-gfs/hgt/100/500/2026092900.024"></label>
+    <label>dataPath2<input name="dataPath2" value="cma-gfs/hgt/100/500/2026092900.000"></label>
     <label>z<input name="z" value="3"></label>
     <label>x<input name="x" value="2"></label>
     <label>y<input name="y" value="1"></label>
@@ -65,8 +66,12 @@
     const hasDataCode = pathParts.length > 1 && pathParts[0] === value('dataCode');
     const relativePath = hasDataCode ? pathParts.slice(1).join('/') : path;
     const fullPath = hasDataCode ? path : `${value('dataCode')}/${relativePath}`;
+    const secondPath = value('dataPath2');
     const tile = query({dataPath: fullPath, z: value('z'), x: value('x'), y: value('y')});
     const pathTile = `/api/cma-nwp/tile/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}/${value('z')}/${value('x')}/${value('y')}.bin`;
+    const contourPath = `/api/cma-nwp/contour/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}`;
+    const minusQuery = query({dataPath: fullPath, dataPath2: secondPath, z: value('z'), x: value('x'), y: value('y')});
+    const minusMetaQuery = query({dataPath: fullPath, dataPath2: secondPath});
     const derivedPath = (name, levelType, level, forecast) =>
       `${name}/${levelType}/${level}/${value('inittime')}.${forecast}`;
     return [
@@ -79,6 +84,9 @@
       ['tile', `/api/cma-nwp/tile?${query({dataPath: fullPath, z: value('z'), x: value('x'), y: value('y')})}`, 'binary'],
       ['tile path', pathTile, 'binary'],
       ['contour', `/api/cma-nwp/contour?${query({dataPath: fullPath, clevs: value('clevs')})}`, 'json'],
+      ['contour path', contourPath, 'json'],
+      ['minus meta', `/api/cma-nwp/meteo/minusMeta?${minusMetaQuery}`, 'json'],
+      ['minus tile', `/api/cma-nwp/meteo/minusTile?${minusQuery}`, 'binary'],
       ['derived meta rain24', `/api/cma-nwp/meta?${query({dataPath: `${value('dataCode')}/${derivedPath('rain24', 1, 0, '024')}`})}`, 'json'],
       ['derived meta tmax24', `/api/cma-nwp/meta?${query({dataPath: `${value('dataCode')}/${derivedPath('tmax24', 103, 2, '024')}`})}`, 'json'],
       ['derived meta tmax24_ch24', `/api/cma-nwp/meta?${query({dataPath: `${value('dataCode')}/${derivedPath('tmax24_ch24', 103, 2, '048')}`})}`, 'json'],
