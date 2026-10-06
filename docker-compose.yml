@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: ./melo-cma-nwp
+    restart: unless-stopped
+    environment:
+      CMA_GFS_ROOT: /data/CMA-GFS-DATA
+      CMA_MESO_ROOT: /data/CMA-MESO-DATA
+    volumes:
+      - ./data:/data:ro
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"

@@ -33,3 +33,13 @@ npm run dev
 - 不提交 `target/`、`node_modules/`、日志和气象数据文件。
 - 生产环境通过环境变量或部署配置挂载数据目录。
 - 根据实际部署地址更新前端 API 代理配置。
+
+## Docker 部署
+
+将数据放入 `data/CMA-GFS-DATA` 和 `data/CMA-MESO-DATA` 后执行：
+
+```bash
+docker compose up -d --build
+```
+
+应用通过 `http://localhost/` 访问，前端容器会将 `/api` 请求转发到后端容器。

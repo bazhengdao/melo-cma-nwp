@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cma-gfs
+    name: melo-cma-nwp
   config:
     import:
       - optional:classpath:derived-data.yml
@@ -15,8 +15,8 @@ cma:
   contour-cache-size: ${CMA_CONTOUR_CACHE_SIZE:32}
   sources:
     cma-gfs:
-      root: ${CMA_GFS_ROOT:../CMA-GFS-DATA}
+      root: ${CMA_GFS_ROOT:/data/CMA-GFS-DATA}
       file-prefix: gmf.gra.
     cma-meso:
-      root: ${CMA_MESO_ROOT:../CMA-MESO-DATA}
+      root: ${CMA_MESO_ROOT:/data/CMA-MESO-DATA}
       file-prefix: gmf.gra.
