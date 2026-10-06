@@ -48,23 +48,6 @@ public class CmaNwpController {
                 : service.validTimes(dataCode, inittime, dataPath);
     }
 
-    @GetMapping("/messages")
-    public Map<String, Object> message(@RequestParam String inittime,
-                                       @RequestParam String forecast,
-                                       @RequestParam String shortName,
-                                       @RequestParam int levelType,
-                                       @RequestParam double level,
-                                       @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode) throws IOException {
-        return service.message(dataCode, inittime, forecast, shortName, levelType, level);
-    }
-
-    @GetMapping("/messages/catalog")
-    public Map<String, Object> messageCatalog(@RequestParam String inittime,
-                                               @RequestParam String forecast,
-                                               @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode) throws IOException {
-        return service.messageCatalog(dataCode, inittime, forecast);
-    }
-
     @GetMapping("/meta")
     public NormalInfo meta(@RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
                            @RequestParam String dataPath) throws IOException {

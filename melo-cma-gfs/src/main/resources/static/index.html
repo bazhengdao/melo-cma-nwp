@@ -69,8 +69,6 @@
       ['health', '/health', 'json'],
       ['inittimes', `/api/cma-nwp/inittimes?${query({dataCode: value('dataCode')})}`, 'json'],
       ['validtimes', `/api/cma-nwp/validtimes?${query({dataCode: value('dataCode'), inittime: value('inittime'), dataPath: value('dataPath')})}`, 'json'],
-      ['message', `/api/cma-nwp/messages?${q}`, 'json'],
-      ['message catalog', `/api/cma-nwp/messages/catalog?${query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast')})}`, 'json'],
       ['message by path', `/api/cma-nwp/message/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}`, 'json'],
       ['meta', `/api/cma-nwp/meta?${query({dataCode: value('dataCode'), dataPath: path})}`, 'json'],
       ['tile', `/api/cma-nwp/tile?${query({dataCode: value('dataCode'), dataPath: path, z: value('z'), x: value('x'), y: value('y')})}`, 'binary'],
