@@ -63,7 +63,7 @@ class CmaNwpControllerTest {
 
         mockMvc.perform(get("/api/cma-nwp/validtimes")
                         .param("inittime", "2026092900")
-                        .param("dataPath", "cma-gfs/rain24/1/0"))
+                        .param("dataPath", "cma-gfs/rain24/1/0/2026092900.024"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].validTime").value("024"));
     }

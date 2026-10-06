@@ -44,7 +44,7 @@ public class CmaNwpController {
             @RequestParam(required = false) String dataPath) throws IOException {
         return dataPath == null || dataPath.isBlank()
                 ? service.validTimes("cma-gfs", inittime)
-                : service.validTimes(sourceFromPath(dataPath), inittime, relativePath(dataPath));
+                : service.validTimes(sourceFromPath(dataPath), inittime, validTimePath(relativePath(dataPath)));
     }
 
     @GetMapping("/messages/catalog")
@@ -128,6 +128,16 @@ public class CmaNwpController {
     private String relativePath(String dataPath) {
         int separator = dataPath.indexOf('/');
         return dataPath.substring(separator + 1);
+    }
+
+    private String validTimePath(String dataPath) {
+        String[] parts = dataPath.split("/", -1);
+        if (parts.length < 3) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST,
+                    "dataPath must be dataCode/shortName/levelType/level");
+        }
+        return String.join("/", java.util.Arrays.copyOf(parts, 3));
     }
 
     private ResponseEntity<byte[]> tileResponse(String dataPath, int z, int x, int y) throws IOException {
