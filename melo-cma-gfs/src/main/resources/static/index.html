@@ -40,7 +40,7 @@
     <label>shortName<input name="shortName" value="hgt"></label>
     <label>levelType<input name="levelType" value="100"></label>
     <label>level<input name="level" value="500"></label>
-    <label>dataPath<input name="dataPath" value="CMA-GFS/hgt/100/500/2026092900.024"></label>
+    <label>dataPath<input name="dataPath" value="hgt/100/500/2026092900.024"></label>
     <label>z<input name="z" value="3"></label>
     <label>x<input name="x" value="2"></label>
     <label>y<input name="y" value="1"></label>
@@ -64,22 +64,22 @@
     const tile = query({dataPath: path, z: value('z'), x: value('x'), y: value('y')});
     const pathTile = `/api/cma-nwp/tile/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}/${value('z')}/${value('x')}/${value('y')}.bin`;
     const derivedPath = (name, levelType, level, forecast) =>
-      `${value('dataCode')}/${name}/${levelType}/${level}/${value('inittime')}.${forecast}`;
+      `${name}/${levelType}/${level}/${value('inittime')}.${forecast}`;
     return [
       ['health', '/health', 'json'],
       ['inittimes', `/api/cma-nwp/inittimes?${query({dataCode: value('dataCode')})}`, 'json'],
       ['validtimes', `/api/cma-nwp/validtimes?${query({dataCode: value('dataCode'), inittime: value('inittime'), dataPath: value('dataPath')})}`, 'json'],
       ['message', `/api/cma-nwp/messages?${q}`, 'json'],
       ['message catalog', `/api/cma-nwp/messages/catalog?${query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast')})}`, 'json'],
-      ['message by path', `/api/cma-nwp/message/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}?${query({dataCode: value('dataCode')})}`, 'json'],
-      ['meta', `/api/cma-nwp/meta?${query({dataPath: path})}`, 'json'],
-      ['tile', `/api/cma-nwp/tile?${tile}`, 'binary'],
+      ['message by path', `/api/cma-nwp/message/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}`, 'json'],
+      ['meta', `/api/cma-nwp/meta?${query({dataCode: value('dataCode'), dataPath: path})}`, 'json'],
+      ['tile', `/api/cma-nwp/tile?${query({dataCode: value('dataCode'), dataPath: path, z: value('z'), x: value('x'), y: value('y')})}`, 'binary'],
       ['tile path', pathTile, 'binary'],
-      ['contour', `/api/cma-nwp/contour?${query({dataPath: path, clevs: value('clevs')})}`, 'json'],
-      ['derived meta rain24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('rain24', 1, 0, '024')})}`, 'json'],
-      ['derived meta tmax24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('tmax24', 103, 2, '024')})}`, 'json'],
-      ['derived meta tmax24_ch24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('tmax24_ch24', 103, 2, '048')})}`, 'json'],
-      ['derived meta prmsl_ch24', `/api/cma-nwp/meta?${query({dataPath: derivedPath('prmsl_ch24', 101, 0, '024')})}`, 'json']
+      ['contour', `/api/cma-nwp/contour?${query({dataCode: value('dataCode'), dataPath: path, clevs: value('clevs')})}`, 'json'],
+      ['derived meta rain24', `/api/cma-nwp/meta?${query({dataCode: value('dataCode'), dataPath: derivedPath('rain24', 1, 0, '024')})}`, 'json'],
+      ['derived meta tmax24', `/api/cma-nwp/meta?${query({dataCode: value('dataCode'), dataPath: derivedPath('tmax24', 103, 2, '024')})}`, 'json'],
+      ['derived meta tmax24_ch24', `/api/cma-nwp/meta?${query({dataCode: value('dataCode'), dataPath: derivedPath('tmax24_ch24', 103, 2, '048')})}`, 'json'],
+      ['derived meta prmsl_ch24', `/api/cma-nwp/meta?${query({dataCode: value('dataCode'), dataPath: derivedPath('prmsl_ch24', 101, 0, '024')})}`, 'json']
     ];
   }
 
