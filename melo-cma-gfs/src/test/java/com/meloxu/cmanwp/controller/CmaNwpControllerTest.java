@@ -69,6 +69,18 @@ class CmaNwpControllerTest {
     }
 
     @Test
+    void catalogEndpointPassesRunAndForecast() throws Exception {
+        when(service.messageCatalog("cma-gfs", "2026092900", "024"))
+                .thenReturn(Map.of("count", 1));
+
+        mockMvc.perform(get("/api/cma-nwp/messages/catalog")
+                        .param("inittime", "2026092900")
+                        .param("forecast", "024"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count").value(1));
+    }
+
+    @Test
     void metaEndpointReturnsMetadata() throws Exception {
         when(dataService.meta("cma-gfs/tmp/103/2/2026092900.024")).thenReturn(new NormalInfo());
 
