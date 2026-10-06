@@ -224,9 +224,8 @@ export function useForecast() {
     try {
       const dataPath = product?.layers?.find((layer) => layer.dataPath)?.dataPath
       const response = await fetch(api('validtimes', {
-        dataCode: 'cma-gfs',
         inittime,
-        ...(dataPath ? { dataPath } : {}),
+        dataPath: dataPath ? `cma-gfs/${dataPath}` : 'cma-gfs',
       }))
       if (!response.ok) throw new Error(`validtimes ${response.status}`)
       const times = await response.json()

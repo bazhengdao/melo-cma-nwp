@@ -63,7 +63,7 @@ class CmaNwpControllerTest {
 
         mockMvc.perform(get("/api/cma-nwp/validtimes")
                         .param("inittime", "2026092900")
-                        .param("dataPath", "rain24/1/0"))
+                        .param("dataPath", "cma-gfs/rain24/1/0"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].validTime").value("024"));
     }
@@ -85,8 +85,7 @@ class CmaNwpControllerTest {
         when(dataService.meta("cma-gfs/tmp/103/2/2026092900.024")).thenReturn(new NormalInfo());
 
         mockMvc.perform(get("/api/cma-nwp/meta")
-                        .param("dataCode", "cma-gfs")
-                        .param("dataPath", "tmp/103/2/2026092900.024"))
+                        .param("dataPath", "cma-gfs/tmp/103/2/2026092900.024"))
                 .andExpect(status().isOk());
     }
 
@@ -96,7 +95,7 @@ class CmaNwpControllerTest {
                 .thenReturn(new byte[]{1, 2, 3});
 
         mockMvc.perform(get("/api/cma-nwp/tile")
-                        .param("dataPath", "tmp/103/2/2026092900.024")
+                        .param("dataPath", "cma-gfs/tmp/103/2/2026092900.024")
                         .param("z", "3")
                         .param("x", "2")
                         .param("y", "1"))
@@ -124,7 +123,7 @@ class CmaNwpControllerTest {
                         "features", List.of()));
 
         mockMvc.perform(get("/api/cma-nwp/contour")
-                        .param("dataPath", "tmp/103/2/2026092900.024")
+                        .param("dataPath", "cma-gfs/tmp/103/2/2026092900.024")
                         .param("clevs", "0,10"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
@@ -162,11 +161,11 @@ class CmaNwpControllerTest {
         when(dataService.minusMeta(sourceEnd, sourceStart)).thenReturn(new NormalInfo());
         when(dataService.minusTile(sourceEnd, sourceStart, 0, 1, 0)).thenReturn(new byte[]{0, 25});
         mockMvc.perform(get("/api/cma-nwp/meteo/minusMeta")
-                        .param("dataPath", end).param("dataPath2", start))
+                        .param("dataPath", sourceEnd).param("dataPath2", sourceStart))
                 .andExpect(status().isOk());
         verify(dataService).minusMeta(sourceEnd, sourceStart);
         mockMvc.perform(get("/api/cma-nwp/meteo/minusTile")
-                        .param("dataPath", end).param("dataPath2", start)
+                        .param("dataPath", sourceEnd).param("dataPath2", sourceStart)
                         .param("z", "0").param("x", "1").param("y", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("application/octet-stream"))

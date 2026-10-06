@@ -165,7 +165,7 @@ const addMarkerStyles = (option, config) => {
 
 const createContourOption = (option, path) => {
   const contourPath = path.split('/')
-  option.url = `/api/cma-nwp/contour/cma-gfs/${contourPath[0]}/${contourPath[1]}/${contourPath[2]}/${encodeURIComponent(contourPath[3])}`
+  option.url = `/api/cma-nwp/contour/${['cma-gfs', ...contourPath].map(encodeURIComponent).join('/')}`
   option.style = (feature) => ({
     weight: 2,
     color: [90, 144, 296, 316, 588].includes(feature.properties.level) ? 'red' : '#0202FF',
@@ -188,12 +188,12 @@ const createLayerOption = (layer) => {
     if (!start || !end || Number(start) >= Number(end)) return null
     const dataPath2 = `${layer.dataPath}/${props.forecast.selectedInitTime}.${start}`
     const query = new URLSearchParams({ dataPath: path, dataPath2 }).toString()
-    option.meta = new Meta3(`/api/cma-nwp/meteo/minusTile?dataCode=cma-gfs&${query}&z={z}&x={x}&y={y}`, `/api/cma-nwp/meteo/minusMeta?dataCode=cma-gfs&${query}`)
+    option.meta = new Meta3(`/api/cma-nwp/meteo/minusTile?${new URLSearchParams({ dataPath: `cma-gfs/${path}`, dataPath2: `cma-gfs/${dataPath2}` })}&z={z}&x={x}&y={y}`, `/api/cma-nwp/meteo/minusMeta?${new URLSearchParams({ dataPath: `cma-gfs/${path}`, dataPath2: `cma-gfs/${dataPath2}` })}`)
     return option
   }
   // The engine splits the UV pair on a path segment, then requests each tile.
   const metaPath = path.replace(/^([^/*]+)\*[^/]+/, '$1')
-  option.meta = new Meta3(`/api/cma-nwp/tile/cma-gfs/${path}/{z}/{x}/{y}.bin`, `/api/cma-nwp/meta?dataCode=cma-gfs&dataPath=${encodeURIComponent(metaPath)}`)
+  option.meta = new Meta3(`/api/cma-nwp/tile/cma-gfs/${path}/{z}/{x}/{y}.bin`, `/api/cma-nwp/meta?dataPath=${encodeURIComponent(`cma-gfs/${metaPath}`)}`)
   return option
 }
 

@@ -40,12 +40,11 @@ public class CmaNwpController {
     
     @GetMapping("/validtimes")
     public List<Map<String, Object>> validTimes(
-            @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
             @RequestParam String inittime,
             @RequestParam(required = false) String dataPath) throws IOException {
         return dataPath == null || dataPath.isBlank()
-                ? service.validTimes(dataCode, inittime)
-                : service.validTimes(dataCode, inittime, dataPath);
+                ? service.validTimes("cma-gfs", inittime)
+                : service.validTimes(sourceFromPath(dataPath), inittime, relativePath(dataPath));
     }
 
     @GetMapping("/messages/catalog")
@@ -56,18 +55,16 @@ public class CmaNwpController {
     }
 
     @GetMapping("/meta")
-    public NormalInfo meta(@RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
-                           @RequestParam String dataPath) throws IOException {
-        return dataService.meta(withDataCode(dataCode, dataPath));
+    public NormalInfo meta(@RequestParam String dataPath) throws IOException {
+        return dataService.meta(dataPath);
     }
 
     @GetMapping(value = "/tile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<byte[]> tile(@RequestParam String dataPath,
-                                       @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
                                        @RequestParam int z,
                                        @RequestParam int x,
                                        @RequestParam int y) throws IOException {
-        return tileResponse(withDataCode(dataCode, dataPath), z, x, y);
+        return tileResponse(dataPath, z, x, y);
     }
 
     @GetMapping(value = "/tile/{dataCode}/{shortName}/{levelType}/{level}/{time}/{z}/{x}/{y}.bin",
@@ -81,14 +78,13 @@ public class CmaNwpController {
                                            @PathVariable int x,
                                            @PathVariable int y) throws IOException {
         String dataPath = String.join("/", shortName, Integer.toString(levelType), level, time);
-        return tileResponse(withDataCode(dataCode, dataPath), z, x, y);
+        return tileResponse(dataCode + "/" + dataPath, z, x, y);
     }
 
     @GetMapping("/contour")
     public Map<String, Object> contour(@RequestParam String dataPath,
-                                       @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
                                        @RequestParam(required = false) String clevs) throws IOException {
-        return contourService.contour(withDataCode(dataCode, dataPath), clevs);
+        return contourService.contour(dataPath, clevs);
     }
 
     @GetMapping("/contour/{dataCode}/{shortName}/{levelType}/{level}/{time}")
@@ -98,31 +94,40 @@ public class CmaNwpController {
                                            @PathVariable String level,
                                            @PathVariable String time) throws IOException {
         String dataPath = String.join("/", shortName, Integer.toString(levelType), level, time);
-        return contourService.contour(withDataCode(dataCode, dataPath), null);
+        return contourService.contour(dataCode + "/" + dataPath, null);
     }
 
     @GetMapping("/meteo/minusMeta")
     public NormalInfo minusMeta(@RequestParam String dataPath,
-                                @RequestParam String dataPath2,
-                                @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode) throws IOException {
-        return dataService.minusMeta(withDataCode(dataCode, dataPath), withDataCode(dataCode, dataPath2));
+                                @RequestParam String dataPath2) throws IOException {
+        return dataService.minusMeta(dataPath, dataPath2);
     }
 
     @GetMapping(value = "/meteo/minusTile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<byte[]> minusTile(@RequestParam String dataPath,
                                             @RequestParam String dataPath2,
-                                            @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
                                             @RequestParam int z,
                                             @RequestParam int x,
                                             @RequestParam int y) throws IOException {
         return ResponseEntity.ok().cacheControl(CacheControl.noStore())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(dataService.minusTile(withDataCode(dataCode, dataPath), withDataCode(dataCode, dataPath2), z, x, y));
+                .body(dataService.minusTile(dataPath, dataPath2, z, x, y));
     }
 
-    private String withDataCode(String dataCode, String dataPath) {
-        String source = dataCode == null || dataCode.isBlank() ? "cma-gfs" : dataCode.trim();
-        return source + "/" + dataPath;
+    private String sourceFromPath(String dataPath) {
+        if (dataPath == null || dataPath.isBlank()) return "cma-gfs";
+        int separator = dataPath.indexOf('/');
+        if (separator < 0) return dataPath;
+        if (separator == 0 || separator == dataPath.length() - 1) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST, "dataPath must start with dataCode/");
+        }
+        return dataPath.substring(0, separator);
+    }
+
+    private String relativePath(String dataPath) {
+        int separator = dataPath.indexOf('/');
+        return dataPath.substring(separator + 1);
     }
 
     private ResponseEntity<byte[]> tileResponse(String dataPath, int z, int x, int y) throws IOException {
