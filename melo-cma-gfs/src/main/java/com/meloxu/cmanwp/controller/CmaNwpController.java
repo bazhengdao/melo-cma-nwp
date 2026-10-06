@@ -132,9 +132,6 @@ public class CmaNwpController {
 
     private String withDataCode(String dataCode, String dataPath) {
         String source = dataCode == null || dataCode.isBlank() ? "cma-gfs" : dataCode.trim();
-        if (dataPath != null && dataPath.regionMatches(true, 0, source + "/", 0, source.length() + 1)) {
-            return dataPath;
-        }
         return source + "/" + dataPath;
     }
 

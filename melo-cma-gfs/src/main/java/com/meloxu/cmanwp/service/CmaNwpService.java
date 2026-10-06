@@ -114,9 +114,6 @@ public class CmaNwpService {
 
     private String normalizeDataPath(String dataPath) {
         String[] parts = dataPath.split("/", -1);
-        if (parts.length >= 4 && sources.contains(parts[0])) {
-            return String.join("/", java.util.Arrays.copyOfRange(parts, 1, 4));
-        }
         if (parts.length >= 3) {
             return String.join("/", java.util.Arrays.copyOfRange(parts, 0, 3));
         }
