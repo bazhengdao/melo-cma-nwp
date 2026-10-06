@@ -148,6 +148,17 @@ class CmaNwpControllerTest {
     }
 
     @Test
+    void contourPathEndpointUsesConfiguredLevels() throws Exception {
+        when(contourService.contour(eq("cma-gfs/hgt/100/500/2026092900.024"), eq(null)))
+                .thenReturn(Map.of("type", "FeatureCollection", "features", List.of()));
+
+        mockMvc.perform(get("/api/cma-nwp/contour/cma-gfs/hgt/100/500/2026092900.024"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.type").value("FeatureCollection"));
+        verify(contourService).contour("cma-gfs/hgt/100/500/2026092900.024", null);
+    }
+
+    @Test
     void messagePathEndpointPassesPathSelector() throws Exception {
         when(service.messageByTime("cma-gfs", "2t", 103, 2.0, "2026092900.024"))
                 .thenReturn(Map.of("shortName", "2t"));

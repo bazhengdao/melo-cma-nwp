@@ -90,8 +90,8 @@ public class CmaNwpController {
                                            @PathVariable int z,
                                            @PathVariable int x,
                                            @PathVariable int y) throws IOException {
-        String dataPath = String.join("/", dataCode, shortName, Integer.toString(levelType), level, time);
-        return tileResponse(dataPath, z, x, y);
+        String dataPath = String.join("/", shortName, Integer.toString(levelType), level, time);
+        return tileResponse(withDataCode(dataCode, dataPath), z, x, y);
     }
 
     @GetMapping("/contour")
@@ -99,6 +99,16 @@ public class CmaNwpController {
                                        @RequestParam(name = "dataCode", defaultValue = "cma-gfs") String dataCode,
                                        @RequestParam(required = false) String clevs) throws IOException {
         return contourService.contour(withDataCode(dataCode, dataPath), clevs);
+    }
+
+    @GetMapping("/contour/{dataCode}/{shortName}/{levelType}/{level}/{time}")
+    public Map<String, Object> contourPath(@PathVariable String dataCode,
+                                           @PathVariable String shortName,
+                                           @PathVariable int levelType,
+                                           @PathVariable String level,
+                                           @PathVariable String time) throws IOException {
+        String dataPath = String.join("/", shortName, Integer.toString(levelType), level, time);
+        return contourService.contour(withDataCode(dataCode, dataPath), null);
     }
 
     @GetMapping("/meteo/minusMeta")

@@ -164,7 +164,8 @@ const addMarkerStyles = (option, config) => {
 }
 
 const createContourOption = (option, path) => {
-  option.url = `/api/cma-nwp/contour?dataCode=cma-gfs&dataPath=${encodeURIComponent(path)}`
+  const contourPath = path.split('/')
+  option.url = `/api/cma-nwp/contour/cma-gfs/${contourPath[0]}/${contourPath[1]}/${contourPath[2]}/${encodeURIComponent(contourPath[3])}`
   option.style = (feature) => ({
     weight: 2,
     color: [90, 144, 296, 316, 588].includes(feature.properties.level) ? 'red' : '#0202FF',
