@@ -2,7 +2,7 @@ FROM m.daocloud.io/docker.io/library/maven:3.9.11-eclipse-temurin-21 AS build
 WORKDIR /build
 COPY pom.xml maven-central-settings.xml ./
 COPY src ./src
-RUN mvn -s maven-central-settings.xml -DskipTests package
+RUN mvn -DskipTests package
 
 FROM m.daocloud.io/docker.io/library/eclipse-temurin:21-jre
 WORKDIR /app
