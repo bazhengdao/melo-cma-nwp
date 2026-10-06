@@ -17,7 +17,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { feature, mesh } from 'topojson-client'
 import { L, BinLayer, WindLayer, ContourLayer, Meta3 } from '../lib/mapEngine'
-import { palettes, paletteUnits } from '../config/palettes'
+import { palettes, paletteUnits } from '../config/runtimeConfig'
 import { regions } from '../composables/useForecast'
 
 const props = defineProps({ forecast: { type: Object, required: true } })

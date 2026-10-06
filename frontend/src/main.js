@@ -2,9 +2,11 @@ import { createApp } from 'vue'
 import './style.css'
 import 'leaflet/dist/leaflet.css'
 import { loadMapEngine } from './lib/mapEngine'
+import { loadPublicConfig } from './config/runtimeConfig'
 
 async function bootstrap() {
   await loadMapEngine()
+  await loadPublicConfig()
   const { default: App } = await import('./App.vue')
   createApp(App).mount('#app')
 }

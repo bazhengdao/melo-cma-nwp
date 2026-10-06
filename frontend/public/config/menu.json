@@ -1,0 +1,877 @@
+{
+  "groups": [
+    {
+      "key": "rainstorm",
+      "name": "暴雨",
+      "items": [
+        {
+          "name": "24小时间隔降水",
+          "ele": "rain24",
+          "layers": [
+            {
+              "key": "precipitation_24",
+              "dataPath": "rain24/1/0",
+              "color": "precipitation24",
+              "legend": true,
+              "label": "24H降水",
+              "unit": "mm",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "12小时间隔降水",
+          "ele": "rain12",
+          "layers": [
+            {
+              "key": "precipitation_12",
+              "dataPath": "rain12/1/0",
+              "color": "precipitation12",
+              "legend": true,
+              "label": "12H降水",
+              "unit": "mm",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6小时间隔降水",
+          "ele": "rain06",
+          "layers": [
+            {
+              "key": "precipitation_6",
+              "dataPath": "rain06/1/0",
+              "color": "precipitation06",
+              "legend": true,
+              "label": "6H降水",
+              "unit": "mm",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3小时间隔降水",
+          "ele": "rain03",
+          "layers": [
+            {
+              "key": "precipitation_3",
+              "dataPath": "rain03/1/0",
+              "color": "precipitation03",
+              "legend": true,
+              "label": "3H降水",
+              "unit": "mm",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "过程累计降水",
+          "ele": "rainAccu",
+          "layers": [
+            {
+              "key": "rain_accuracy",
+              "dataPath": "apcp/1/0",
+              "processRain": true,
+              "color": "precipitationAccu",
+              "legend": true,
+              "label": "过程累计降水",
+              "unit": "mm",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "convection",
+      "name": "强对流",
+      "items": [
+        {
+          "name": "组合反射率",
+          "ele": "radar-echo",
+          "layers": [
+            {
+              "key": "radar",
+              "dataPath": null,
+              "color": "radar",
+              "legend": true,
+              "label": "组合反射率",
+              "unit": "dBZ",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "对流有效位能",
+          "ele": "cape",
+          "layers": [
+            {
+              "key": "cape",
+              "dataPath": "cape/1/0",
+              "color": "cape",
+              "legend": true,
+              "label": "对流有效位能",
+              "unit": "",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "冰雹指数",
+          "ele": "hi",
+          "layers": [
+            {
+              "key": "hi",
+              "dataPath": null,
+              "color": "hi",
+              "legend": true,
+              "label": "冰雹指数",
+              "unit": "",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "K指数",
+          "ele": "ki",
+          "layers": [
+            {
+              "key": "kindex",
+              "dataPath": "kx/101/0",
+              "color": "kindex",
+              "legend": true,
+              "label": "K指数",
+              "unit": "",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "最优抬升指数",
+          "ele": "bli",
+          "layers": [
+            {
+              "key": "bli",
+              "dataPath": "bli/1/0",
+              "color": "bli",
+              "legend": true,
+              "label": "最优抬升指数",
+              "unit": "",
+              "ratio": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "wind",
+      "name": "大风",
+      "items": [
+        {
+          "name": "10m瞬时风",
+          "ele": "uv-10m",
+          "layers": [
+            {
+              "key": "wind_10_c",
+              "dataPath": "ugrd*vgrd/103/10",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "10m瞬时风",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            }
+          ]
+        },
+        {
+          "name": "10m阵风",
+          "ele": "wind-speed-10m",
+          "layers": [
+            {
+              "key": "wind_10_s",
+              "dataPath": "gust/103/10",
+              "color": "local10wind",
+              "legend": true,
+              "label": "10m阵风",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "fillColor": "black",
+                "color": "white",
+                "minZoom": 1,
+                "weight": 3,
+                "stroke": true,
+                "visible": "visible_rain"
+              }
+            }
+          ]
+        },
+        {
+          "name": "50m风",
+          "ele": "uv-50m",
+          "layers": [
+            {
+              "key": "wind_50_c",
+              "dataPath": "ugrd*vgrd/103/50",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "50m风场",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            }
+          ]
+        },
+        {
+          "name": "100m风",
+          "ele": "uv-100m",
+          "layers": [
+            {
+              "key": "wind_100_c",
+              "dataPath": "ugrd*vgrd/103/100",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "100m风场",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "temperature",
+      "name": "高温寒潮",
+      "items": [
+        {
+          "name": "2m温度",
+          "ele": "tmp-2m",
+          "layers": [
+            {
+              "key": "tem_2m",
+              "dataPath": "tmp/103/2",
+              "color": "temperature",
+              "legend": true,
+              "label": "2m温度",
+              "unit": "℃",
+              "ratio": 4,
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black"
+              }
+            }
+          ]
+        },
+        {
+          "name": "24小时最高温度",
+          "ele": "tmp-24h-max",
+          "layers": [
+            {
+              "key": "tem_24h_max",
+              "dataPath": "tmax24/103/2",
+              "color": "temperature",
+              "legend": true,
+              "label": "24H最高温",
+              "unit": "℃",
+              "ratio": 4,
+              "aggr": "max",
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black"
+              }
+            }
+          ]
+        },
+        {
+          "name": "24小时最低温度",
+          "ele": "tmp-24h-min",
+          "layers": [
+            {
+              "key": "tem_24h_min",
+              "dataPath": "tmin24/103/2",
+              "color": "temperature",
+              "legend": true,
+              "label": "24H最低温",
+              "unit": "℃",
+              "ratio": 4,
+              "aggr": "min",
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black"
+              }
+            }
+          ]
+        },
+        {
+          "name": "24小时变温",
+          "ele": "tmp-24h-change-2m",
+          "layers": [
+            {
+              "key": "tem_24h_2m_change",
+              "dataPath": "tmp_ch24/103/2",
+              "color": "temperature-change",
+              "legend": true,
+              "label": "24小时变温",
+              "unit": "℃",
+              "ratio": 4,
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black"
+              }
+            }
+          ]
+        },
+        {
+          "name": "24小时最高温变温",
+          "ele": "tmp-24h-max-change",
+          "layers": [
+            {
+              "key": "tem_24h_max_change",
+              "dataPath": "tmax24_ch24/103/2",
+              "color": "temperature-change",
+              "legend": true,
+              "label": "24H最高温变温",
+              "unit": "℃",
+              "ratio": 4,
+              "aggrMinus": "max",
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black"
+              }
+            }
+          ]
+        },
+        {
+          "name": "24小时最低温变温",
+          "ele": "tmp-24h-min-change",
+          "layers": [
+            {
+              "key": "tem_24h_min_change",
+              "dataPath": "tmin24_ch24/103/2",
+              "color": "temperature-change",
+              "legend": true,
+              "label": "24H最低温变温",
+              "unit": "℃",
+              "ratio": 4,
+              "aggrMinus": "min",
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hgt-wind",
+      "name": "形势场",
+      "items": [
+        {
+          "name": "500hPa高度925hPa风场",
+          "ele": "h500w925",
+          "layers": [
+            {
+              "key": "wind_925_c",
+              "dataPath": "ugrd*vgrd/100/925",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "925hPa风场(阴影)",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            },
+            {
+              "key": "height_500",
+              "dataPath": "hgt/100/500",
+              "url": "",
+              "shaded": false,
+              "style": "height_contour",
+              "label": "500hPa高度(等值线)",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "500hPa高度850hPa风场",
+          "ele": "h500w850",
+          "layers": [
+            {
+              "key": "wind_850_c",
+              "dataPath": "ugrd*vgrd/100/850",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "850hPa风场(阴影)",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            },
+            {
+              "key": "height_500",
+              "dataPath": "hgt/100/500",
+              "url": "",
+              "shaded": false,
+              "style": "height_contour",
+              "label": "500hPa高度(等值线)",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "500hPa高度700hPa风场",
+          "ele": "h500w700",
+          "layers": [
+            {
+              "key": "wind_700_c",
+              "dataPath": "ugrd*vgrd/100/700",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "700hPa风场(阴影)",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            },
+            {
+              "key": "height_500",
+              "dataPath": "hgt/100/500",
+              "url": "",
+              "shaded": false,
+              "style": "height_contour",
+              "label": "500hPa高度(等值线)",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "500hPa高度和风场",
+          "ele": "h500w500",
+          "layers": [
+            {
+              "key": "wind_500_c",
+              "dataPath": "ugrd*vgrd/100/500",
+              "type": "wind",
+              "color": "local10wind",
+              "legend": true,
+              "label": "500hPa风场(阴影)",
+              "unit": "m/s",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -12,
+                    -12
+                  ],
+                  [
+                    12,
+                    12
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            },
+            {
+              "key": "height_500",
+              "dataPath": "hgt/100/500",
+              "url": "",
+              "shaded": false,
+              "style": "height_contour",
+              "label": "500hPa高度(等值线)",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "850hPa风场和相对湿度",
+          "ele": "w850rh850",
+          "layers": [
+            {
+              "key": "wind_850",
+              "dataPath": "ugrd*vgrd/100/850",
+              "type": "wind",
+              "shaded": false,
+              "label": "850hPa风羽",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -8,
+                    -6
+                  ],
+                  [
+                    8,
+                    6
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            },
+            {
+              "key": "rh_850",
+              "dataPath": "rh/100/850",
+              "color": "rh",
+              "legend": true,
+              "label": "850hPa相对湿度",
+              "unit": "%",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "700hPa风场和相对湿度",
+          "ele": "w700rh700",
+          "layers": [
+            {
+              "key": "wind_700",
+              "dataPath": "ugrd*vgrd/100/700",
+              "type": "wind",
+              "shaded": false,
+              "label": "700hPa风羽",
+              "ratio": 4,
+              "marker": {
+                "color": "black",
+                "minZoom": 1,
+                "bounds": [
+                  [
+                    -8,
+                    -6
+                  ],
+                  [
+                    8,
+                    6
+                  ]
+                ],
+                "style": "wind_style"
+              }
+            },
+            {
+              "key": "rh_700",
+              "dataPath": "rh/100/700",
+              "color": "rh",
+              "legend": true,
+              "label": "700hPa相对湿度",
+              "unit": "%",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "海平面气压",
+          "ele": "slp",
+          "layers": [
+            {
+              "key": "slp",
+              "dataPath": "prmsl/101/0",
+              "color": "slp",
+              "legend": true,
+              "label": "海平面气压",
+              "unit": "hPa",
+              "ratio": 4,
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "24小时变压",
+          "ele": "slp_chg24",
+          "layers": [
+            {
+              "key": "slp_chg24",
+              "dataPath": "prmsl_ch24/101/0",
+              "color": "slChange24h",
+              "legend": true,
+              "label": "24小时变压",
+              "unit": "hPa",
+              "ratio": 4,
+              "marker": {
+                "minZoom": 1,
+                "stroke": true,
+                "weight": 3,
+                "color": "white",
+                "fillColor": "black",
+                "bounds": [
+                  [
+                    -20,
+                    -6
+                  ],
+                  [
+                    20,
+                    6
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "海温",
+          "ele": "sst",
+          "layers": [
+            {
+              "key": "tem_surface",
+              "dataPath": "tmp/1/0",
+              "url": "",
+              "color": "temperature",
+              "style": "tem_surface",
+              "legend": true,
+              "label": "海温",
+              "unit": "℃",
+              "ratio": 4
+            }
+          ]
+        },
+        {
+          "name": "能见度",
+          "ele": "visibility",
+          "layers": [
+            {
+              "key": "visibility",
+              "dataPath": "vis/1/0",
+              "color": "visibility",
+              "legend": true,
+              "label": "能见度",
+              "unit": "km",
+              "ratio": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

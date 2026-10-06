@@ -1,5 +1,5 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { menuGroups } from '../config/menuConfig'
+import { menuGroups } from '../config/runtimeConfig'
 
 export { menuGroups as productGroups }
 export const regions = ['全国', '东北', '华北', '西北', '西南', '华中', '华东', '华南']
