@@ -37,10 +37,10 @@
     <label>dataCode<input name="dataCode" value="cma-gfs"></label>
     <label>inittime<input name="inittime" value="2026092900"></label>
     <label>forecast<input name="forecast" value="024"></label>
-    <label>shortName<input name="shortName" value="2t"></label>
+    <label>shortName<input name="shortName" value="hgt"></label>
     <label>levelType<input name="levelType" value="100"></label>
     <label>level<input name="level" value="500"></label>
-    <label>dataPath<input name="dataPath" value="2t/103/2/2026092900.024"></label>
+    <label>dataPath<input name="dataPath" value="cma-gfs/hgt/100/500/2026092900.024"></label>
     <label>z<input name="z" value="3"></label>
     <label>x<input name="x" value="2"></label>
     <label>y<input name="y" value="1"></label>
@@ -61,10 +61,10 @@
     const q = query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast'),
       shortName: value('shortName'), levelType: value('levelType'), level: value('level')});
     const path = value('dataPath');
-    const relativePath = path.split('/').length > 3 && path.split('/')[0] === value('dataCode')
-      ? path.split('/').slice(1).join('/')
-      : path;
-    const fullPath = `${value('dataCode')}/${relativePath}`;
+    const pathParts = path.split('/');
+    const hasDataCode = pathParts.length > 1 && pathParts[0] === value('dataCode');
+    const relativePath = hasDataCode ? pathParts.slice(1).join('/') : path;
+    const fullPath = hasDataCode ? path : `${value('dataCode')}/${relativePath}`;
     const tile = query({dataPath: fullPath, z: value('z'), x: value('x'), y: value('y')});
     const pathTile = `/api/cma-nwp/tile/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}/${value('z')}/${value('x')}/${value('y')}.bin`;
     const derivedPath = (name, levelType, level, forecast) =>
