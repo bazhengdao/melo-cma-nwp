@@ -98,6 +98,10 @@ public class CmaNwpService {
 
     private Integer minVT(String dataPath) {
         if (dataPath == null || dataPath.isBlank()) return null;
+        if (dataPath.split("/", -1).length != 3) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "dataPath must be shortName/levelType/level for validtimes");
+        }
         String key = normalizeDataPath(dataPath);
         return properties.getDerived().stream()
                 .filter(definition -> definition.getDataPath() != null

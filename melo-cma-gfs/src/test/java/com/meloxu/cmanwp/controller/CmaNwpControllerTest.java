@@ -100,6 +100,7 @@ class CmaNwpControllerTest {
         when(dataService.meta("cma-gfs/tmp/103/2/2026092900.024")).thenReturn(new NormalInfo());
 
         mockMvc.perform(get("/api/cma-nwp/meta")
+                        .param("dataCode", "cma-gfs")
                         .param("dataPath", "tmp/103/2/2026092900.024"))
                 .andExpect(status().isOk());
     }
