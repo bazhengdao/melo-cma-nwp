@@ -61,7 +61,10 @@
     const q = query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast'),
       shortName: value('shortName'), levelType: value('levelType'), level: value('level')});
     const path = value('dataPath');
-    const fullPath = `${value('dataCode')}/${path}`;
+    const relativePath = path.split('/').length > 3 && path.split('/')[0] === value('dataCode')
+      ? path.split('/').slice(1).join('/')
+      : path;
+    const fullPath = `${value('dataCode')}/${relativePath}`;
     const tile = query({dataPath: fullPath, z: value('z'), x: value('x'), y: value('y')});
     const pathTile = `/api/cma-nwp/tile/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}/${value('z')}/${value('x')}/${value('y')}.bin`;
     const derivedPath = (name, levelType, level, forecast) =>
@@ -69,7 +72,7 @@
     return [
       ['health', '/health', 'json'],
       ['inittimes', `/api/cma-nwp/inittimes?${query({dataCode: value('dataCode')})}`, 'json'],
-      ['validtimes', `/api/cma-nwp/validtimes?${query({inittime: value('inittime'), dataPath: `${value('dataCode')}/${value('dataPath').split('/').slice(0, 3).join('/')}`})}`, 'json'],
+      ['validtimes', `/api/cma-nwp/validtimes?${query({inittime: value('inittime'), dataPath: `${value('dataCode')}/${relativePath.split('/').slice(0, 3).join('/')}`})}`, 'json'],
       ['message catalog', `/api/cma-nwp/messages/catalog?${query({dataCode: value('dataCode'), inittime: value('inittime'), forecast: value('forecast')})}`, 'json'],
       ['message by path', `/api/cma-nwp/message/${encodeURIComponent(value('dataCode'))}/${encodeURIComponent(value('shortName'))}/${value('levelType')}/${encodeURIComponent(value('level'))}/${encodeURIComponent(value('inittime') + '.' + value('forecast'))}`, 'json'],
       ['meta', `/api/cma-nwp/meta?${query({dataPath: fullPath})}`, 'json'],
