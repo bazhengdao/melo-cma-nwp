@@ -36,7 +36,7 @@ npm run dev
 
 ## Docker 部署
 
-将数据放入 `data/CMA-GFS-DATA` 和 `data/CMA-MESO-DATA` 后执行：
+将数据放入 `CMA-GFS-DATA` 和 `CMA-MESO-DATA` 后执行：
 
 ```bash
 docker compose up -d --build

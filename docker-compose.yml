@@ -7,7 +7,8 @@ services:
       CMA_GFS_ROOT: /data/CMA-GFS-DATA
       CMA_MESO_ROOT: /data/CMA-MESO-DATA
     volumes:
-      - ./data:/data:ro
+      - ./CMA-GFS-DATA:/data/CMA-GFS-DATA:ro
+      - ./CMA-MESO-DATA:/data/CMA-MESO-DATA:ro
 
   frontend:
     build:
