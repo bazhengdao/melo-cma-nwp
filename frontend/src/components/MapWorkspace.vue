@@ -2,7 +2,7 @@
   <section class="map-panel">
     <div class="map-toolbar">
       <div class="region-control"><span class="region-label">地图区域:</span><div class="regions"><button v-for="item in regions" :key="item" type="button" class="region" :class="{ active: forecast.region === item }" @click="forecast.region = item">{{ item }}</button></div></div>
-      <div class="map-actions"><button class="tool active" type="button" title="图层">▱</button><button class="tool" type="button" title="定位">⌖</button><button class="tool" type="button" title="全屏">⛶</button></div>
+      <div class="map-actions"><button class="download-button" type="button" title="下载图片" :disabled="downloading" @click="downloadImage">下载图片</button></div>
     </div>
     <div class="map-stage">
       <div ref="mapEl" class="leaflet-map" aria-label="气象图层地图"></div>
@@ -15,6 +15,7 @@
 </template>
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import html2canvas from 'html2canvas'
 import { feature, mesh } from 'topojson-client'
 import { L, BinLayer, WindLayer, ContourLayer, Meta3 } from '../lib/mapEngine'
 import { palettes, paletteUnits } from '../config/runtimeConfig'
@@ -32,6 +33,7 @@ let dataLayers = []
 let resizeObserver
 let loadId = 0
 const mapStatus = ref('')
+const downloading = ref(false)
 const regionBounds = {
   全国: [[18, 73], [55, 135]], 东北: [[38, 118], [54, 135]], 华北: [[34, 105], [43, 121]],
   西北: [[31, 73], [49, 112]], 西南: [[21, 78], [35, 110]], 华中: [[24, 108], [35, 117]],
@@ -84,6 +86,59 @@ const legendGradient = computed(() => {
 const forecastDate = computed(() => props.forecast.isProcessRain
   ? props.forecast.processRangeLabel || '请选择起止时效'
   : props.forecast.timeSlots[props.forecast.hourIndex]?.date || '--')
+
+const safeFilename = (value) => String(value || '').replace(/[\\/:*?"<>|\s]+/g, '-').replace(/^-+|-+$/g, '')
+const downloadImage = async () => {
+  if (!mapEl.value || downloading.value) return
+  downloading.value = true
+  const previousStatus = mapStatus.value
+  mapStatus.value = ''
+  try {
+    const stage = mapEl.value.closest('.map-stage')
+    const bounds = stage.getBoundingClientRect()
+    const canvas = await html2canvas(stage, {
+      backgroundColor: '#dce4e5',
+      scale: Math.min(window.devicePixelRatio || 1, 2),
+      useCORS: true,
+      logging: false,
+      onclone: (document) => {
+        const clonedStage = document.querySelector('.map-stage')
+        if (clonedStage) {
+          clonedStage.style.width = `${Math.round(bounds.width)}px`
+          clonedStage.style.height = `${Math.round(bounds.height)}px`
+        }
+        document.querySelectorAll('.map-zoom, .coordinates, .map-status').forEach((element) => {
+          element.style.display = 'none'
+        })
+        // Raster capture must apply Leaflet's SVG positioning only once.
+        // Keep the positioning on the image, outside the serialized SVG.
+        clonedStage?.querySelectorAll('svg').forEach((svg) => {
+          const source = svg.cloneNode(true)
+          source.removeAttribute('style')
+          source.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+          const image = document.createElement('img')
+          image.className = svg.getAttribute('class') || ''
+          image.style.cssText = svg.style.cssText
+          image.width = Number(svg.getAttribute('width'))
+          image.height = Number(svg.getAttribute('height'))
+          image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(source))}`
+          svg.replaceWith(image)
+        })
+      },
+    })
+    const link = document.createElement('a')
+    const filename = [props.forecast.selected.name, forecastDate.value].map(safeFilename).filter(Boolean).join('_')
+    link.download = `${filename || 'cma-nwp'}.png`
+    link.href = canvas.toDataURL('image/png')
+    link.click()
+  } catch (error) {
+    console.error('Failed to export map image', error)
+    mapStatus.value = '图片生成失败，请稍后重试'
+  } finally {
+    downloading.value = false
+    if (!mapStatus.value) mapStatus.value = previousStatus
+  }
+}
 
 const isContourLayer = (config) => config.style === 'height_contour'
 const isWindLayer = (config) => config.type === 'wind'
