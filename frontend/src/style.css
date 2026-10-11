@@ -215,3 +215,82 @@ body { min-width: 0; }
   .workspace { grid-template-columns: 330px minmax(0, 1fr); }
   .map-panel { min-width: 0; }
 }
+
+/* Sea-blue application theme. Map and data-layer colors remain unchanged. */
+:root { color: #e3f5fb; background: #062b3e; }
+body { background: #062b3e; }
+.shell { background: #08384f; }
+.topbar { border-bottom-color: #17617d; background: #0a4561; }
+.brand strong { color: #f1fbff; }
+.brand small, .date-control, .select-control { color: #a8d2df; }
+input[type=date], select, .stepper, .stepper button, .icon-button { border-color: #28718c; background: #0e526d; color: #e3f5fb; }
+.stepper button:hover, .icon-button:hover { background: #166987; color: #fff; }
+.sidebar, .inspector { border-color: #17617d; background: #0a4058; }
+.side-heading, .inspector-title { border-bottom-color: #1c6680; color: #dff5fb; }
+.product-tabs { border-bottom-color: #1c6680; background: #0b4962; }
+.product-tabs button { border-bottom-color: #55d5ed; background: #1689ad; }
+.product-group h3 { color: #8bc9d9; }
+.product-item { color: #d4edf3; }
+.product-item:hover { background: #145a73; }
+.product-item.selected { background: #1a7290; box-shadow: inset 3px 0 #63d9ee; }
+.time-column { border-color: #17617d; background: #0b4058; }
+.interval-tabs { border-bottom-color: #1c6680; }
+.interval-tabs button { border-color: #1d6680; background: #0b4058; color: #dff5fb; }
+.interval-tabs button.active, .interval-tabs button.all.active { border-color: #3aa4be; background: #176b86; }
+.map-panel { background: #0b4058; }
+.map-toolbar, .timeline { border-color: #17617d; background: #0a4561; }
+.region:hover, .region.active { border-color: #4bb6cc; background: #176b86; color: #e8fbff; }
+.tool { border-color: #28718c; background: #0e526d; color: #a9dce8; }
+.tool.active, .tool:hover { border-color: #55c7de; background: #176b86; color: #e8fbff; }
+.timeline-head strong { color: #e6f8fc; }
+.play-button { background: #147d9c; color: #e4f9fd; }
+.play-button:hover { background: #1b9ab9; }
+.tick { border-color: #28718c; color: #91c5d3; }
+.tick.active { border-color: #60d5e8; color: #e8fbff; }
+.inspector-title, .metric, .detail-list { border-color: #17617d; }
+.point-card { border-color: #28718c; background: #0d526b; }
+.point-icon { background: #16718b; color: #b9eff7; }
+.metric strong { color: #b9eff7; }
+.top-controls .model-badge, .model-badge { border-color: #3aa4be; background: #12627d; color: #e8fbff; }
+.region { border-color: #246b83; background: #0c4b63; color: #bfe2eb; }
+.download-button { border-color: #2d819b; background: #0d5b75; color: #d6f2f8; }
+.download-button:hover { border-color: #63d7e8; background: #167d99; color: #fff; }
+.time-list button:hover, .time-list button.active { background: #145d77; color: #e8fbff; }
+.time-arrows, .time-arrows button { border-color: #1c6680; background: #0a4561; color: #bfe2eb; }
+.sidebar-footer, .sidebar-footer button { border-color: #1c6680; color: #8fc4d1; }
+#product-list { border-color: #1c6680; scrollbar-color: #2d819b transparent; }
+.map-zoom button { border-color: #2d819b; background: rgba(10, 69, 97, .94); color: #d8f6fb; }
+input[type=date], .select-control select {
+  border-color: #3aa4be;
+  background: #0b4c66;
+  color: #e8fbff;
+  color-scheme: dark;
+  accent-color: #60d5e8;
+}
+input[type=date]:focus, .select-control select:focus { border-color: #72e0ef; box-shadow: 0 0 0 2px rgba(96, 213, 232, .2); }
+.interval-tabs button.all, .interval-tabs button.all.active {
+  border-color: #2d819b;
+  background: #0d5872;
+  color: #dff7fb;
+}
+.interval-tabs button.all:hover { border-color: #63d7e8; background: #167d99; }
+.coordinates {
+  border: 1px solid rgba(86, 199, 218, .7);
+  background: rgba(8, 62, 83, .92);
+  box-shadow: 0 2px 8px rgba(3, 35, 49, .24);
+  color: #dcf8fc;
+}
+.map-caption {
+  border: 1px solid rgba(86, 199, 218, .62);
+  background: rgba(8, 62, 83, .9);
+  color: #e6faff;
+}
+.map-caption strong { color: #f1fdff; }
+.map-caption > span { color: #b9e8f0; }
+.map-status {
+  border-color: #57c8dc;
+  background: rgba(8, 73, 96, .96);
+  box-shadow: 0 4px 16px rgba(2, 37, 52, .38);
+  color: #e9fcff;
+}
+.time-state { background: #0c5a73; color: #dff8fc; }

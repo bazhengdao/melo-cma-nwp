@@ -1,6 +1,8 @@
 package com.meloxu.cmanwp.mapping;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
@@ -16,7 +18,11 @@ public class Wgrib2NameMapping {
 
     @SuppressWarnings("unchecked")
     public Wgrib2NameMapping() {
-        try (InputStream input = new ClassPathResource(RESOURCE).getInputStream()) {
+        Resource resource = new FileSystemResource("/app/config/" + RESOURCE);
+        if (!resource.exists()) {
+            resource = new ClassPathResource(RESOURCE);
+        }
+        try (InputStream input = resource.getInputStream()) {
             Map<String, Object> root = new Yaml().load(input);
             Map<String, Object> cma = map(root.get("cma"));
             Map<String, Object> wgrib2 = map(cma.get("wgrib2"));

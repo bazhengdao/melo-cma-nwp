@@ -178,11 +178,11 @@
       "items": [
         {
           "name": "组合反射率",
-          "ele": "radar-echo",
+          "ele": "cref",
           "layers": [
             {
-              "key": "radar",
-              "dataPath": null,
+              "key": "cref",
+              "dataPath": "cref/1/0",
               "color": "radar",
               "legend": true,
               "label": "组合反射率",
@@ -230,7 +230,7 @@
           "layers": [
             {
               "key": "hi",
-              "dataPath": null,
+              "dataPath": "hi/1/0",
               "color": "hi",
               "legend": true,
               "label": "冰雹指数",
@@ -547,10 +547,9 @@
               "key": "wind_925_c",
               "dataPath": "ugrd*vgrd/100/925",
               "type": "wind",
-              "color": "local10wind",
-              "legend": true,
-              "label": "925hPa风场(阴影)",
-              "unit": "m/s",
+              "shaded": false,
+              "legend": false,
+              "label": "925hPa风羽",
               "ratio": 4,
               "marker": {
                 "color": "black",
@@ -587,10 +586,9 @@
               "key": "wind_850_c",
               "dataPath": "ugrd*vgrd/100/850",
               "type": "wind",
-              "color": "local10wind",
-              "legend": true,
-              "label": "850hPa风场(阴影)",
-              "unit": "m/s",
+              "shaded": false,
+              "legend": false,
+              "label": "850hPa风羽",
               "ratio": 4,
               "marker": {
                 "color": "black",
@@ -627,10 +625,9 @@
               "key": "wind_700_c",
               "dataPath": "ugrd*vgrd/100/700",
               "type": "wind",
-              "color": "local10wind",
-              "legend": true,
-              "label": "700hPa风场(阴影)",
-              "unit": "m/s",
+              "shaded": false,
+              "legend": false,
+              "label": "700hPa风羽",
               "ratio": 4,
               "marker": {
                 "color": "black",
@@ -667,10 +664,9 @@
               "key": "wind_500_c",
               "dataPath": "ugrd*vgrd/100/500",
               "type": "wind",
-              "color": "local10wind",
-              "legend": true,
-              "label": "500hPa风场(阴影)",
-              "unit": "m/s",
+              "shaded": false,
+              "legend": false,
+              "label": "500hPa风羽",
               "ratio": 4,
               "marker": {
                 "color": "black",

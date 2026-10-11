@@ -43,3 +43,20 @@ docker compose up -d --build
 ```
 
 应用通过 `http://localhost/` 访问，前端容器会将 `/api` 请求转发到后端容器。
+# 内网部署
+
+生产内网机器不需要连接互联网。联网构建机执行：
+
+```bash
+docker compose build
+docker save -o melo-cma-nwp-images.tar tongh-backend:latest tongh-frontend:latest
+```
+
+将 `melo-cma-nwp-images.tar`、`docker-compose.yml`、`CMA-GFS-DATA`、`CMA-MESO-DATA`、`melo-cma-nwp/src/main/resources` 和 `frontend/public/config` 复制到内网机器，在内网执行：
+
+```bash
+docker load -i melo-cma-nwp-images.tar
+docker compose up -d
+```
+
+Compose 会把后端 YAML 配置目录挂载到 `/app/config`，把前端 JSON 配置目录挂载到 Nginx 的 `/usr/share/nginx/html/config`。修改这些目录中的配置后执行 `docker compose restart backend frontend` 即可生效，不需要重新构建镜像。气象数据目录保持可写，以便 GRIB 库生成索引文件。

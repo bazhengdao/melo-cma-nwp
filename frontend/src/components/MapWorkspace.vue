@@ -9,7 +9,7 @@
       <div class="map-zoom"><button type="button" title="放大" @click="forecast.zoomIn">+</button><button type="button" title="缩小" @click="forecast.zoomOut">−</button></div><div class="coordinates">{{ coordinates }}</div>
       <div v-if="mapStatus" class="map-status" role="status">{{ mapStatus }}</div>
       <div class="map-caption"><strong>{{ forecast.selected.name }}</strong><span>{{ forecastDate }}</span></div>
-      <div class="legend" :class="{ compact: paletteLabels.length > 9 }"><div class="legend-title">{{ activeLayer?.unit || paletteUnits[activeLayer?.color?.ident] || '' }}</div><div class="legend-body"><div class="legend-bar" :style="{ background: legendGradient }"></div><div class="legend-labels"><span v-for="tick in paletteLabels" :key="tick.value" :style="{ top: `${tick.position}%` }">{{ tick.value }}</span></div></div></div>
+      <div v-if="activeLayer" class="legend" :class="{ compact: paletteLabels.length > 9 }"><div class="legend-title">{{ activeLayer?.unit || paletteUnits[activeLayer?.color?.ident] || '' }}</div><div class="legend-body"><div class="legend-bar" :style="{ background: legendGradient }"></div><div class="legend-labels"><span v-for="tick in paletteLabels" :key="tick.value" :style="{ top: `${tick.position}%` }">{{ tick.value }}</span></div></div></div>
     </div>
   </section>
 </template>
@@ -43,8 +43,11 @@ const regionKeys = {
   全国: 'all', 东北: 'dongbei', 华北: 'huabei', 西北: 'xibei',
   西南: 'xinan', 华中: 'huazhong', 华东: 'huadong', 华南: 'huanan',
 }
-const activeLayer = computed(() => props.forecast.selected.layers?.find((layer) => layer.legend) || props.forecast.selected.layers?.[0] || {})
-const palette = computed(() => activeLayer.value.color || palettes.precipitation24)
+const activeLayer = computed(() => props.forecast.selected.layers?.find((layer) => layer.legend === true) || null)
+const palette = computed(() => {
+  const color = activeLayer.value?.color
+  return (typeof color === 'string' ? palettes[color] : color) || { gradient: [] }
+})
 const isSentinelTick = (value) => Math.abs(Math.abs(value % 1) - 0.01) < 0.000001
 const isHiddenLegendStop = (value) => {
   const numeric = Number(value)
